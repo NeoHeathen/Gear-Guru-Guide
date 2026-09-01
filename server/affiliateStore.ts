@@ -27,6 +27,9 @@ export type AffiliateLinkInput = {
   lastCheckedAt?: number | null;
 };
 
+const MAX_VERIFICATION_AGE_MS = 90 * 24 * 60 * 60 * 1000;
+const VERIFIED_SOURCE_PREFIX = /^Verified source:\s*\S+/iu;
+
 let pool: ReturnType<typeof createPool> | undefined;
 
 function getPool() {
@@ -35,10 +38,19 @@ function getPool() {
   return pool;
 }
 
+function hasCurrentVerification(input: AffiliateLinkInput) {
+  const checkedAt = input.lastCheckedAt;
+  const notes = input.notes?.trim() || "";
+  if (!checkedAt || !Number.isFinite(checkedAt)) return false;
+  const age = Date.now() - checkedAt;
+  return age >= 0 && age <= MAX_VERIFICATION_AGE_MS && VERIFIED_SOURCE_PREFIX.test(notes);
+}
+
 export function validateAffiliateLinkInput(input: AffiliateLinkInput) {
   if (!Number.isInteger(input.productId) || input.productId < 1) throw new Error("A valid catalog product is required.");
   if (!input.destinationUrl || !/^https:\/\//iu.test(input.destinationUrl)) throw new Error("Affiliate destinations must use HTTPS.");
   if (input.videoUrl && !/^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//iu.test(input.videoUrl)) throw new Error("Video reviews must use a YouTube URL.");
+  if (input.isActive && !hasCurrentVerification(input)) throw new Error("Active affiliate links require a current verification timestamp and private notes beginning with 'Verified source:' followed by the verified provenance.");
   const merchant = input.merchant?.trim() || "Amazon";
   if (/^amazon(?:\s+associates)?$/iu.test(merchant)) {
     let url: URL;
@@ -68,7 +80,8 @@ export async function listPublicVideoReviews(): Promise<PublicVideoReview[]> {
 }
 
 export async function listPublicAffiliateOffers(): Promise<PublicAffiliateOffer[]> {
-  const [rows] = await getPool().query<RowDataPacket[]>("SELECT productId, merchant, destinationUrl FROM affiliate_link_records WHERE isActive = 1");
+  const cutoff = Date.now() - MAX_VERIFICATION_AGE_MS;
+  const [rows] = await getPool().query<RowDataPacket[]>("SELECT productId, merchant, destinationUrl FROM affiliate_link_records WHERE isActive = 1 AND lastCheckedAt >= ? AND notes LIKE 'Verified source:%'", [cutoff]);
   return rows.map((row) => ({ productId: Number(row.productId), merchant: String(row.merchant), destinationUrl: String(row.destinationUrl) }));
 }
 
