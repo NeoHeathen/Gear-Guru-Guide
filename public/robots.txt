@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /owner-dashboard
+Disallow: /api/
+
+Sitemap: https://gearguruguide.com/sitemap.xml

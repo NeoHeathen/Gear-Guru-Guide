@@ -1,0 +1,37 @@
+{
+  "name": "gear-guru-guide",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "NODE_ENV=development tsx watch server/index.ts",
+    "build": "tsc -b && vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist-server",
+    "start": "NODE_ENV=production node dist-server/index.js",
+    "check": "tsc -b",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.23.4",
+    "react": "latest",
+    "react-dom": "latest",
+    "tsx": "^4.23.12",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.2.0",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "drizzle-kit": "^0.31.10",
+    "esbuild": "^0.28.2",
+    "jsdom": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
+  }
+}

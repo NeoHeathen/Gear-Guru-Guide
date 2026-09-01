@@ -1,0 +1,45 @@
+# Project TODO
+
+- [x] Establish premium outdoor editorial brand foundation and responsive homepage
+- [x] Create featured guide, category, newsletter, and disclosure content blocks
+- [x] Add a structured catalog for the first 20 researched premium products
+- [x] Prepare affiliate-ready product-link boundaries and document Amazon product-data integration prerequisites
+- [x] Create faceless video prompt planning resources for YouTube and Instagram
+- [x] Add automated tests for core catalog data and affiliate-claim guardrails
+- [x] Verify the responsive rendered site across desktop and mobile viewports
+- [x] Add the refined founder story, required editorial sections, and plain-language affiliate, safety, and product-claim disclosures
+- [x] Implement an inactive affiliate-link preparation layer that requires an approved Associates tracking ID before activation
+- [x] Add automated homepage-behavior tests for catalog filtering, signup validation, and trust-content visibility
+- [x] Save a final working checkpoint after the verified responsive build
+- [x] Allow the managed preview host in Vite and verify the preview opens for the user
+- [x] Document the recommended publish-first Amazon Associates application sequence and compliant product-data workflow
+- [x] Create and publish the three original cornerstone guides for exoskeletons, portable power, and satellite communication
+- [x] Create affiliate disclosure, editorial policy, privacy, terms, and contact pages with clear site navigation
+- [x] Add a sticky table of contents and contextual related-product research cards to every cornerstone guide
+- [x] Expand the catalog to 40 high-end products with verified publisher application paths and disclosure-safe public presentation
+- [x] Expand the catalog to 100 high-end outdoor research items with documented publisher-program or editorial-only status
+- [x] Research Amazon high-ticket outdoor categories, Amazon-listed exoskeletons, premium satellite communicators, and camping internet options without fabricating bestseller rankings
+- [x] Verify MSR, Starlink, and other required affiliate-program paths and prepare a publisher-application checklist
+- [x] Add a YouTube review-calendar and article-to-video workflow for the expanded product catalog
+- [x] Create a private owner-only affiliate application checklist that is not published in the public site navigation
+- [x] Add a public Brand Directory with category-based brand browsing and a Work With Us inquiry form that protects editorial independence
+- [x] Add sponsorship and endorsement / ambassador inquiry paths with prominent editorial-independence safeguards
+- [x] Add an embed-ready Video Review section to each cornerstone product research guide, with clear editorial and disclosure boundaries
+- [x] Remove price-led “expensive” language from visible editorial pages and replace it with premium, high-consideration wording
+- [x] Create a private downloadable Amazon Associates activation guide and document the exact owner inputs required before approved links can go live
+- [x] Update the private owner manual with manual-link maintenance, link-expiration checks, and Amazon Creators API refresh guidance
+- [x] Add a public Featured on YouTube catalog filter using product review-status data
+- [x] Add a protected owner-only affiliate-link dashboard with secure storage, edit controls, and no public exposure of private links
+- [x] Add additional premium outdoor exoskeleton research entries backed by current manufacturer information and documented publisher status where available
+- [x] Audit Hostinger domain-connection readiness and current affiliate-program compliance safeguards against official requirements
+- [x] Screen an out-of-scope affiliate submission and leave no public link or endorsement
+- [x] Cancel the associated conditional affiliate-placement task without retaining the submitted destination
+- [x] Cancel review of a later affiliate submission at the owner’s request before any public placement
+- [x] Cancel the associated public-placement task without retaining the submitted destination
+- [x] Remove all out-of-scope health-product owner notes, screening records, and pending public-placement tasks from Gear Guru Guide
+- [x] Add Amazon-ready disclosure-first affiliate placement controls that retain private destination storage and avoid unauthorized product data
+- [x] Add crawlable technical SEO assets and affiliate-safe structured metadata for the public site
+- [x] Create an owner-facing Hostinger DNS connection and post-publish verification checklist that preserves existing nameservers and email records
+- [x] Add automated coverage for public affiliate presentation safeguards and technical SEO assets
+- [x] Implement a public active-affiliate placement flow that renders a clear adjacent disclosure and keeps inactive destinations out of public catalog responses
+- [x] Add automated tests that verify disclosure rendering for active placements and absence of a placement when no owner record is active
