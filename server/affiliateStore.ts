@@ -27,11 +27,41 @@ export type AffiliateLinkInput = {
   lastCheckedAt?: number | null;
 };
 
+export type HyperdriveBinding = {
+  host: string;
+  user: string;
+  password: string;
+  database: string;
+  port: number;
+};
+
 let pool: ReturnType<typeof createPool> | undefined;
+let hyperdrive: HyperdriveBinding | undefined;
+
+export function configureHyperdrive(binding: HyperdriveBinding | undefined) {
+  if (hyperdrive === binding) return;
+  hyperdrive = binding;
+  pool = undefined;
+}
 
 function getPool() {
+  if (pool) return pool;
+
+  if (hyperdrive) {
+    pool = createPool({
+      host: hyperdrive.host,
+      user: hyperdrive.user,
+      password: hyperdrive.password,
+      database: hyperdrive.database,
+      port: hyperdrive.port,
+      disableEval: true,
+      connectionLimit: 1,
+    });
+    return pool;
+  }
+
   if (!process.env.DATABASE_URL) throw new Error("Database is not configured.");
-  pool ??= createPool(process.env.DATABASE_URL);
+  pool = createPool(process.env.DATABASE_URL);
   return pool;
 }
 
