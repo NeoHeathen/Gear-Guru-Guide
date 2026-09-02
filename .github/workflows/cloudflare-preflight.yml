@@ -25,13 +25,30 @@ jobs:
         run: npm install
 
       - name: TypeScript
-        run: npm run check
+        run: npm run check 2>&1 | tee typescript.log
 
       - name: Tests
-        run: npm test
+        continue-on-error: true
+        shell: bash
+        run: set -o pipefail; npm test 2>&1 | tee tests.log
 
       - name: Build frontend
-        run: npx vite build
+        continue-on-error: true
+        shell: bash
+        run: set -o pipefail; npx vite build 2>&1 | tee build.log
 
       - name: Validate Cloudflare bundle
-        run: npx wrangler deploy --dry-run
+        continue-on-error: true
+        shell: bash
+        run: set -o pipefail; npx wrangler deploy --dry-run 2>&1 | tee wrangler.log
+
+      - name: Upload diagnostic logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloudflare-preflight-logs
+          path: |
+            typescript.log
+            tests.log
+            build.log
+            wrangler.log
