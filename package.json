@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "NODE_ENV=development tsx watch server/index.ts",
     "build": "tsc -b && vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist-server",
+    "build:cloudflare": "tsc -b && vite build && wrangler deploy --dry-run",
+    "deploy:cloudflare": "tsc -b && vitest run && vite build && wrangler deploy",
     "start": "NODE_ENV=production node dist-server/index.js",
     "check": "tsc -b",
-    "test": "vitest run"
+    "test": "vitest run",
+    "cf:types": "wrangler types"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
@@ -32,6 +35,7 @@
     "esbuild": "^0.28.2",
     "jsdom": "latest",
     "typescript": "latest",
-    "vitest": "latest"
+    "vitest": "latest",
+    "wrangler": "latest"
   }
 }
