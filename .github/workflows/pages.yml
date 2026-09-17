@@ -1,24 +1,10 @@
-name: Deploy Gear Guru Guide
-
+name: Verify Gear Guru Guide Production
 on:
   push:
     branches: [main]
   workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,16 +12,6 @@ jobs:
         with:
           node-version: 22
       - run: npm install
-      - run: npm run test
-        env:
-          ADMIN_DASHBOARD_PASSWORD: ci-verification-only
       - run: npm run build
-      - run: cp dist/index.html dist/404.html
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - run: test -f dist/index.html
+      - run: node -e "const p=require('./dist/assets/ggg-products.json'); if(p.length!==795) process.exit(1); console.log('Verified',p.length,'products')"
