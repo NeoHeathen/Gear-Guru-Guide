@@ -7,6 +7,18 @@ const p=JSON.parse(await (await import("node:fs/promises")).readFile("dist/asset
 const verifiedAmazon={585:"B07TTRPFBT",586:"B07TTRQ42F",589:"B07TZP8WWZ",595:"B0FRL97VG2",804:"B0FCZD9R4V",263:"B0FQV6LMVX",623:"B0D14FMFZD",636:"B0DFG2WDQH",632:"B0D7PPG25F",17:"B0CQXMZ5BK",401:"B0CRCVKNHR",72:"B08BCTC22X",228:"B01N5O7551",409:"B06Y3TC113",650:"B0CLGZB3L6",491:"B0FN7MSY4L",74:"B0DG3JT4H6",622:"B0DCC2BVFW",23:"B0C6DHK68Q",468:"B0F42HLLSC",646:"B07HFHTGX3",380:"B07V6CWS26",9234:"B0C7VP2CXP",666:"B09PSSSFPF",667:"B0BFBZR4KW",6:"B0DFHNGDGM",15:"B0CNSF5DK2",661:"B0DD5N9G17",9051:"B017NI17HQ",9052:"B00JGBQ6ES",9041:"B07GBH36NS",43:"B0CG19FGQ5",674:"B0CG19QXWD",675:"B0DBR8HVZG",498:"B0CZ6F44CL",678:"B0DCM34GXX",684:"B003V53GFM",8:"B0DX2B821T",10:"B0DQQVG24P",14:"B0CL7N15WM",37:"B0DS2HDF1M",132:"B0FFT1857C",133:"B0GJCYYJFF",785:"B06WD29DZ8",793:"B0CDZK352T",9043:"B07V6CWS26",794:"B08BQZ9L67",797:"B08BCTC22X",798:"B08B8H3T8T",799:"B07ZD8R6TQ",800:"B00B5H5DQK",801:"B00OW5AK22",782:"B009F7J0CS",786:"B08FVN41XP",9031:"B0DSHWYH22",9011:"B07C1XKGYY",789:"B0BJNYFWQY",803:"B000K5WSI2"};
 const unitree={584:"https://shop.unitree.com/products/unitree-go2",587:"https://shop.unitree.com/products/unitree-go2",588:"https://shop.unitree.com/products/unitree-b2",590:"https://shop.unitree.com/products/unitree-h1",591:"https://shop.unitree.com/products/unitree-r1"};
 const exactOfficial={316:"https://www.ecoflow.com/us/delta-pro-portable-power-station",621:"https://www.ecoflow.com/us/delta-2-max-portable-power-station"};
+// User production rule: unresolved Amazon searches are not finished purchase paths.
+// When the live catalog already carries a manufacturer source URL, promote that manufacturer URL
+// unless an independently verified exact Amazon ASIN overlay exists below.
+for (const p of products) {
+  if (p.amazonLinkType === "search" && p.sourceUrl && /^https?:\/\//.test(p.sourceUrl)) {
+    p.officialUrl = p.sourceUrl;
+    p.commerceRoute = "Official manufacturer";
+    p.hasAmazon = false;
+    p.amazonLinkType = "official";
+  }
+}
+
 // Preserve existing relevant Amazon search links as monetizable fallbacks until an exact ASIN is independently verified.
 for(const x of p){if(exactOfficial[x.id]){x.officialUrl=exactOfficial[x.id];x.hasAmazon=false;x.amazonLinkType="official";x.commerceRoute="Official Manufacturer Product";}if(verifiedAmazon[x.id]){x.officialUrl="https://www.amazon.com/dp/"+verifiedAmazon[x.id]+"?tag=gearguruguide-20";x.hasAmazon=true;x.amazonLinkType="product";x.commerceRoute="Amazon Associates";}if(unitree[x.id]){x.officialUrl=unitree[x.id];x.hasAmazon=false;x.amazonLinkType="official";x.commerceRoute="Unitree Official Store";}}
 await writeFile("dist/assets/ggg-products.json",JSON.stringify(p,null,2));
