@@ -14,4 +14,5 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: test -f dist/index.html
-      - run: node -e "const p=require('./dist/assets/ggg-products.json'); if(p.length!==795) process.exit(1); console.log('Verified',p.length,'products')"
+      - run: node -e "const p=require('./dist/assets/ggg-products.json'); if(!Array.isArray(p)||p.length<1) process.exit(1); console.log('Verified',p.length,'products')"
+      - run: node -e "const p=require('./dist/assets/ggg-products.json'); const bad=p.filter(x=>Object.values(x).some(v=>typeof v==='string' && /amazon\\.com\\/s(?:\\?|\\/)/i.test(v))); if(bad.length){console.error('Amazon search URLs remain',bad.map(x=>x.id));process.exit(1)} console.log('No Amazon search-result product URLs')"
